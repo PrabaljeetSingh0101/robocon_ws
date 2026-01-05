@@ -21,7 +21,8 @@ The robocon_2026.sdf world includes:
   
   Boundaries: Surrounding walls and an acrylic fence to enclose the play area.
 
-![Uploading image.png…]()
+Images:
+  i added an image folder for preview of how it looks.
 
 How to run:
   1.install ros2, gazebo fortress.
@@ -32,3 +33,4 @@ How to run:
 
 Some part explained:
   the models of tips (fist, palm, spear) are are the original one. i donwloaded the 30pm coupler from interent. Downloaded .stp(format), .STEP(format) converted to .dae(format)
+
