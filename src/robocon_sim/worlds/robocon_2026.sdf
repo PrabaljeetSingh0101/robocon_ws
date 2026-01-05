@@ -10,32 +10,8 @@
     <plugin filename="ignition-gazebo-user-commands-system" name="ignition::gazebo::systems::UserCommands"/>
     <plugin filename="ignition-gazebo-scene-broadcaster-system" name="ignition::gazebo::systems::SceneBroadcaster"/>
 
-    <gui fullscreen="0">
-      <plugin filename="GzScene3D" name="3D View">
-        <gz-gui>
-          <title>3D View</title>
-          <property type="bool" key="showTitleBar">false</property>
-          <property type="string" key="state">docked</property>
-        </gz-gui>
-        <engine>ogre2</engine>
-        <scene>scene</scene>
-        <ambient_light>0.4 0.4 0.4</ambient_light>
-        <background_color>0.8 0.8 0.8</background_color>
-      </plugin>
-      <plugin filename="WorldControl" name="World control">
-        <gz-gui>
-          <title>World control</title>
-          <property type="bool" key="showTitleBar">false</property>
-          <property type="string" key="state">docked</property>
-        </gz-gui>
-        <play_pause>true</play_pause>
-        <step>true</step>
-        <start_paused>true</start_paused>
-      </plugin>
-    </gui>
-
     <light type="directional" name="sun">
-      <pose>-10 0 5 0 0.5 0</pose>
+      <pose>0 0 5 0 0 0</pose>
       <diffuse>0.8 0.8 0.8 1</diffuse>
       <specular>0.2 0.2 0.2 1</specular>
     </light>
@@ -605,7 +581,7 @@
     </model>
 
     <!-- WEST game_field_floor_3.2 -->
-    <model name="wall_3.2_west">
+    <model name="wall_west_3.2">
       <static>true</static>
       <pose>-3.025 -5.8 0.5 0 0 0</pose>
       <link name="link">
@@ -648,7 +624,37 @@
       </link>
     </model>
 
+
+    <model name="wall_west_ramp">
+      <static>true</static>
+      <pose>-3.025 -4.45 0.3 -0.261799 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box><size>0.05 1.55241 0.1</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>0.05 1.55241 0.1</size></box>
+          </geometry>
+          <material>
+            <ambient>0.3921568627 0.2431372549 0 1</ambient>
+            <diffuse>0.3921568627 0.2431372549 0 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+
+    
+
 <!-- Goodbye WALLs -->
+
+
+
+
+
 <model name="acrylic_fence">
   <static>true</static>
   <pose>1.025 -3.85 0.5 0 0 1.570796327</pose>
@@ -678,9 +684,6 @@
 
 
 
-
-
-
 <model name="tictactoe_rack">
   <static>true</static>
   <pose>3.025 -5.15 0.45 0 0 1.570796327</pose> 
@@ -688,25 +691,43 @@
     <collision name="base_col"><pose>0 0 0.2 0 0 0</pose><geometry><box><size>1.62 0.32 0.4</size></box></geometry></collision>
     <visual name="base_vis"><pose>0 0 0.2 0 0 0</pose><geometry><box><size>1.62 0.32 0.4</size></box></geometry>
       <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material></visual>
-    
+
+    <collision name="v1_col"><pose>-0.81 0 1.21 0 0 0</pose><geometry><box><size>0.02 0.3 1.62</size></box></geometry></collision>
     <visual name="v1"><pose>-0.81 0 1.21 0 0 0</pose><geometry><box><size>0.02 0.3 1.62</size></box></geometry>
       <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material></visual>
+
+    <collision name="v2_col"><pose>-0.27 0 1.21 0 0 0</pose><geometry><box><size>0.02 0.3 1.62</size></box></geometry></collision>
     <visual name="v2"><pose>-0.27 0 1.21 0 0 0</pose><geometry><box><size>0.02 0.3 1.62</size></box></geometry>
       <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material></visual>
+
+    <collision name="v3_col"><pose>0.27 0 1.21 0 0 0</pose><geometry><box><size>0.02 0.3 1.62</size></box></geometry></collision>
     <visual name="v3"><pose>0.27 0 1.21 0 0 0</pose><geometry><box><size>0.02 0.3 1.62</size></box></geometry>
       <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material></visual>
+
+    <collision name="v4_col"><pose>0.81 0 1.21 0 0 0</pose><geometry><box><size>0.02 0.3 1.62</size></box></geometry></collision>
     <visual name="v4"><pose>0.81 0 1.21 0 0 0</pose><geometry><box><size>0.02 0.3 1.62</size></box></geometry>
       <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material></visual>
 
+    <collision name="h1_col"><pose>0 0 0.41 0 0 0</pose><geometry><box><size>1.62 0.3 0.02</size></box></geometry></collision>
     <visual name="h1"><pose>0 0 0.41 0 0 0</pose><geometry><box><size>1.62 0.3 0.02</size></box></geometry>
       <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material></visual>
+
+    <collision name="h2_col"><pose>0 0 0.95 0 0 0</pose><geometry><box><size>1.62 0.3 0.02</size></box></geometry></collision>
     <visual name="h2"><pose>0 0 0.95 0 0 0</pose><geometry><box><size>1.62 0.3 0.02</size></box></geometry>
       <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material></visual>
+
+    <collision name="h3_col"><pose>0 0 1.49 0 0 0</pose><geometry><box><size>1.62 0.3 0.02</size></box></geometry></collision>
     <visual name="h3"><pose>0 0 1.49 0 0 0</pose><geometry><box><size>1.62 0.3 0.02</size></box></geometry>
       <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material></visual>
+
+    <collision name="h4_col"><pose>0 0 2.03 0 0 0</pose><geometry><box><size>1.62 0.3 0.02</size></box></geometry></collision>
     <visual name="h4"><pose>0 0 2.03 0 0 0</pose><geometry><box><size>1.62 0.3 0.02</size></box></geometry>
       <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material></visual>
 
+    <collision name="back_col">
+      <pose>0 0.15 1.21 0 0 0</pose>
+      <geometry><box><size>1.62 0.01 1.62</size></box></geometry>
+    </collision>
     <visual name="acrylic_back">
       <pose>0 0.15 1.21 0 0 0</pose>
       <geometry><box><size>1.62 0.01 1.62</size></box></geometry>
@@ -718,30 +739,69 @@
   </link>
 </model>
 
+<model name="pvc_staff_with_coupler">
+  <static>true</static>
+  <pose>0 5.0 0.5 0 0 0</pose>
+  <link name="link">
+    <inertial>
+      <mass>0.195</mass>
+      <inertia>
+        <ixx>0.017</ixx><ixy>0</ixy><ixz>0</ixz>
+        <iyy>0.017</iyy><iyz>0</iyz>
+        <izz>0.0001</izz>
+      </inertia>
+    </inertial>
 
-<!-- Hand Pipe -->
- <model name="pvc_staff_with_coupler">
-      <pose>0 5.0 0.5 0 0 0</pose>
-      <link name="link">
-        <inertial>
-          <mass>0.195</mass>
-          <inertia><ixx>0.017</ixx><ixy>0</ixy><ixz>0</ixz><iyy>0.017</iyy><iyz>0</iyz><izz>0.0001</izz></inertia>
-        </inertial>
-        <visual name="pipe_visual">
-          <pose>0 0 0.5 0 0 0</pose>
-          <geometry><cylinder><radius>0.01015</radius><length>1.0</length></cylinder></geometry>
-          <material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material>
-        </visual>
-        <visual name="coupler_visual">
-          <pose>0 0 1.0 0 0 0</pose> 
-          <geometry>
-            <mesh><uri>model://30PM_STEEL/meshes/CCB66038-10_30PM_STEEL_c.dae</uri></mesh>
-          </geometry>
-        </visual>
-      </link>
-    </model>
+    <collision name="pipe_col">
+      <pose>0 0 0.5 0 0 0</pose>
+      <geometry>
+        <cylinder>
+          <radius>0.01015</radius>
+          <length>1.0</length>
+        </cylinder>
+      </geometry>
+    </collision>
 
+    <visual name="pipe_visual">
+      <pose>0 0 0.5 0 0 0</pose>
+      <geometry>
+        <cylinder>
+          <radius>0.01015</radius>
+          <length>1.0</length>
+        </cylinder>
+      </geometry>
+      <material>
+        <ambient>1 0 0 1</ambient>
+        <diffuse>1 0 0 1</diffuse>
+      </material>
+    </visual>
 
+    <collision name="coupler_col">
+      <pose>0 0 1.0 0 0 0</pose> <!-- Try exactly at pipe top first -->
+      <geometry>
+        <mesh>
+          <uri>model://30PM_STEEL/meshes/coupler.dae</uri>
+          <scale>1.0 1.0 1.0</scale>
+        </mesh>
+      </geometry>
+    </collision>
+
+    <visual name="coupler_visual">
+      <pose>0 0 1.0 0 -1.570796327 0</pose> <!-- Try exactly at pipe top first -->
+      <geometry>
+        <mesh>
+          <uri>model://30PM_STEEL/meshes/coupler.dae</uri>
+          <scale>1.0 1.0 1.0</scale>
+        </mesh>
+      </geometry>
+      <material>
+        <ambient>0.69 0.69 0.69 1</ambient>
+        <diffuse>0.69 0.69 0.69 1</diffuse>
+        <specular>0.1 0.1 0.1 1</specular>
+      </material>
+    </visual>
+  </link>
+</model>
 
   </world>
 
