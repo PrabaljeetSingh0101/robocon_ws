@@ -34,3 +34,4 @@ How to run:
 Some part explained:
   the models of tips (fist, palm, spear) are are the original one. i donwloaded the 30pm coupler from interent. Downloaded .stp(format), .STEP(format) converted to .dae(format)
 
+(you can delete the images folder after pulling its just for illustration purposes of how it looks)
