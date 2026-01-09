@@ -17,7 +17,7 @@ First, install and configure **Docker** and **VS Code** on your Arch host.
 3. **Manage as non-root**: Add your user to the docker group: `sudo usermod -aG docker $USER`.
 4. **Apply changes**: Log out and log back in, `reboot`.
 
-5. ### Donwload the Zip file from above, unzip it.
+5. ### Donwload the Zip file from above, unzip it. (I installed the whole in /home directory if u are doing differnet then i need to change all the locations everywhere, and in using windows u will need to replace all the / with \\ everywhere which is so tedious. Oops)
 
 
 2. **Required Extension**: Install the **"Dev Containers and Docker"** extensions within VS Code.
