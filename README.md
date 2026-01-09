@@ -1,50 +1,120 @@
-# robocon_sim
+This README provides the final, complete steps for installing **ROS 2 Jazzy** and **Gazebo Harmonic** on **Arch Linux**, specifically optimized for **Intel Iris Xe** graphics.(Can be changed just change the dockerfile)
 
-This package provides a simulation environment for the **Robocon 2026** competition using **Ignition Gazebo**.
+---
 
-## Requirements
+# ROS 2 Jazzy & Gazebo Harmonic Setup (Arch Linux)
 
-* **ROS 2**: Humble
-* **Gazebo**: Fortress
-* **OS**: Ubuntu
+This guide covers the installation and setup for long-term project development using VS Code Dev Containers.
 
-## File Summaries
+## 1. Host System Requirements (Arch Linux)
 
-* **`package.xml`**: Defines package metadata (name, maintainer) and `ament_cmake` dependencies.
-* **`CMakeLists.txt`**: Contains instructions to build and package simulation resources.
-* **`robocon_2026.sdf`**: The Ignition Gazebo world file defining the 3D environment.
+First, install and configure **Docker** and **VS Code** on your Arch host.
 
-## Simulation World Features
+### Install Docker
 
-The `robocon_2026.sdf` environment includes:
+1. **Install the package**: `sudo pacman -S docker`.
+2. **Enable the service**: `sudo systemctl enable --now docker`.
+3. **Manage as non-root**: Add your user to the docker group: `sudo usermod -aG docker $USER`.
+4. **Apply changes**: Log out and log back in, `reboot`.
 
-* **Game Field**: A floor divided into zones (1, 2, 3.1, 3.2) with specific heights and "retry zones".
-* **Obstacles**: A "forest" area with **12 boxes** (heights 200mm–600mm) and a **solid ramp**.
-* **Competition Elements**: Interactive **Palm, Spear, and Fist** staff assemblies.
-* **Racks**: Specialized storage for **Tic-Tac-Toe** pieces and equipment.
-* **Boundaries**: Perimeter walls and an acrylic fence.
 
-## How to Run
+2. **Required Extension**: Install the **"Dev Containers and Docker"** extensions within VS Code.
 
-1. **Install** ROS 2 Humble and Gazebo Fortress.
-2. **Set the resource path** so Gazebo can find the models:
+---
+
+## 📁 2. Workspace Initialization
+
+Create your workspace directory on your host machine. This folder is permanently stored on your laptop.
+
 ```bash
-export IGN_GAZEBO_RESOURCE_PATH=~/robocon_ws/src/robocon_sim/models:~/robocon_ws/src/robocon_sim/worlds
+mkdir -p ~/ros2_jazzy_ws/src
+cd ~/ros2_jazzy_ws
+mkdir .devcontainer
 
 ```
 
+---
 
-3. **Launch the simulation**:
-```bash
-ign gazebo -r robocon_2026.sdf
+## 🛠️ 3. Configuration Files
+
+Create these two files inside `~/ros2_jazzy_ws/.devcontainer/`.
+
+### Dockerfile
+
+```dockerfile
+FROM osrf/ros:jazzy-simulation
+
+# 1. Install dev tools
+RUN apt-get update && apt-get install -y \
+    python3-colcon-common-extensions \
+    ros-dev-tools \
+    sudo mesa-utils \
+    && rm -rf /var/lib/apt/lists/*
+
+# 2. Fix GID 1000 conflict and setup Non-Root User
+ARG USERNAME=ros
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+
+# Remove existing 'ubuntu' user/group if they exist to free up UID/GID 1000
+RUN if getent passwd $USER_UID; then userdel -r $(getent passwd $USER_UID | cut -d: -f1); fi \
+    && if getent group $USER_GID; then groupmod -n old-ubuntu $(getent group $USER_GID | cut -d: -f1); fi \
+    && groupadd --gid $USER_GID $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+    && echo "$USERNAME ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
+    && chmod 0440 /etc/sudoers.d/$USERNAME
+
+# 3. Create workspace with correct permissions
+RUN mkdir -p /home/ros2_jazzy_ws && chown $USERNAME:$USERNAME /home/ros2_jazzy_ws
+
+RUN echo "source /opt/ros/jazzy/setup.bash" >> /home/$USERNAME/.bashrc \ 
+    && echo "if [ -f /home/ros2_jazzy_ws/install/setup.bash ]; then source /home/ros2_jazzy_ws/install/setup.bash; fi" >> /home/$USERNAME/.bashrc
+
+USER $USERNAME
+WORKDIR /home/ros2_jazzy_ws
+```
+
+### devcontainer.json
+
+```json
+{
+    "name": "ROS 2 Jazzy + Gazebo Harmonic",
+    "build": { "dockerfile": "Dockerfile" },
+    "workspaceFolder": "/home/ros2_jazzy_ws",
+    "remoteUser": "ros",
+    "initializeCommand": "xhost +local:docker",
+    "runArgs": [
+        "--net=host",
+        "--privileged",
+        "--ipc=host",
+        "-e", "DISPLAY=${localEnv:DISPLAY}",
+        "-v", "/tmp/.X11-unix:/tmp/.X11-unix:rw",
+        "-v", "${localWorkspaceFolder}:/home/ros2_jazzy_ws:cached",
+        "--device=/dev/dri:/dev/dri"
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-iot.vscode-ros",
+                "ms-python.python",
+                "ms-vscode.cpptools"
+            ]
+        }
+    }
+}
 
 ```
 
+---
 
+## 🏃 4. How to Launch
 
-## Model Information
+1. **Open Folder**: Open `~/ros2_jazzy_ws` in VS Code.
+2. **Start Container**: Click the **Blue Icon** (bottom-left)(><) → **"Reopen in Container or something similar"**.
+3. **Run Simulation**:
+```bash
+export GZ_SIM_RESOURCE_PATH=/home/ros2_jazzy_ws/src/robocon_sim/models:/home/ros2_jazzy_ws/src/robocon_sim/worlds:$GZ_SIM_RESOURCE_PATH
+gz sim -r src/robocon_sim/worlds/robocon_2026.sdf
 
-* **Staff Tips**: Original models (Fist, Palm, Spear).
-* **Coupler**: The **30PM coupler** was sourced externally and converted from `.stp`/`.STEP` to `.dae` format for compatibility.
+```
 
-*(Note: The `images/` folder is for illustration and can be removed after pulling.)*
