@@ -17,6 +17,8 @@ First, install and configure **Docker** and **VS Code** on your Arch host.
 3. **Manage as non-root**: Add your user to the docker group: `sudo usermod -aG docker $USER`.
 4. **Apply changes**: Log out and log back in, `reboot`.
 
+5. ### Donwload the Zip file from above, unzip it.
+
 
 2. **Required Extension**: Install the **"Dev Containers and Docker"** extensions within VS Code.
 
@@ -108,7 +110,7 @@ WORKDIR /home/ros2_jazzy_ws
 ---
 
 ## 🏃 4. How to Launch
-
+0. **Replace src**: Replace src in ur folder with the zip file one. 
 1. **Open Folder**: Open `~/ros2_jazzy_ws` in VS Code.
 2. **Start Container**: Click the **Blue Icon** (bottom-left)(><) → **"Reopen in Container or something similar"**.
 3. **Run Simulation**:
