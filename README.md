@@ -1,8 +1,8 @@
-This README provides the final, complete steps for installing **ROS 2 Jazzy** and **Gazebo Harmonic** on **Arch Linux**, specifically optimized for **Intel Iris Xe** graphics.(Can be changed just change the dockerfile)
+This README provides the final, complete steps for installing **ROS 2 Jazzy** and **Gazebo Harmonic** on **Linux**, specifically optimized for **Intel Iris Xe** graphics.(Can be changed just change the dockerfile)
 
 ---
 
-# ROS 2 Jazzy & Gazebo Harmonic Setup (Arch Linux)
+# ROS 2 Jazzy & Gazebo Harmonic Setup (Linux)
 
 This guide covers the installation and setup for long-term project development using VS Code Dev Containers.
 
