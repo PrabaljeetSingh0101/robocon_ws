@@ -6,7 +6,7 @@ This README provides the final, complete steps for installing **ROS 2 Jazzy** an
 
 This guide covers the installation and setup for long-term project development using VS Code Dev Containers.
 
-## 1. Host System Requirements (Arch Linux)
+## 1. Host System Requirements (Linux)
 
 First, install and configure **Docker** and **VS Code** on your Arch host.
 
